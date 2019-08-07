@@ -46,5 +46,6 @@ FalsaPos= function(f, x0, x1, maxiter, tol)
   }
   plot(Errori,Errorj, type = "l", xlab = "Error i",ylab="Error i+1")
 }
+##--- Pruebas
 f = function(x) exp(x)-pi*x;
 FalsaPos(f,0,1,1000,1e-8)
