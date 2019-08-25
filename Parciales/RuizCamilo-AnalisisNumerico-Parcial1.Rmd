@@ -1,0 +1,125 @@
+---
+title: "Parcial 1 2019-03 - Camilo Ruiz"
+output:
+html_notebook: default
+pdf_document: default
+---
+#-------------------------------------------------------------------------------------------------------
+# En el siguiente archivo esta la respuesta a mi parcial del día 23/Agosto/2019
+# Debido a los ejercicios planteados para la clase en github y la presentación me fue asignado desarrollar medio punto
+# Por ello hare el numeral 2 con los punto a y c
+#-------------------------------------------------------------------------------------------------------
+# 2.En R: Sean f(x) = ln(x + 2) y g(x) = sin(x) dos funciones de valor real.
+
+f <-function(x){
+  return(log(x + 2))
+}
+g <-function(x){
+  return(sin(x))
+}
+h <-function(x){
+  return (f(x)-g(x))  
+}
+#Grafica de las funciones
+plot(f, xlim = c(-3,0), ylim = c(-2,2), col = "blue", main = "Grafica de las Funciones", xlab = "x", ylab = "y")
+par(new=TRUE)
+curve(g, type = "l", col="green", axes=FALSE, ylab = "y", xlim = c(-3,0), ylim = c(-2,2))
+abline(h=0, v=0, col="red")
+par(new=FALSE)
+# a)  Utilice la siguiente formula recursiva con E = 1e−8 para el punto de intersección.
+#La funcion recibe como parametros un x0, un valor anterior al deseado, y un x1 un valor después del deseado con una tol definida
+puntoA <- function(x0, x1, tol)
+{
+
+  err = abs(x1-x0)
+  cont <-0
+  x = 0
+  
+  cat("---------------------------------------------------------------------------\n")
+  cat(formatC( c("x_k"," f(x_k)","Error est."), width = -20, format = "f", flag = " "), "\n")
+  cat("---------------------------------------------------------------------------\n")
+  
+  
+  iteraciones<-c()
+  Ex<-c()
+  Ey<-c()
+  
+  while(tol < err)
+  {
+#Se halla el numerador y el denominador de la expresion iterativa utilizando la función h(x) que es la que tiene la intersección de las dos funciones previas
+    num = h(x1)*(x1-x0)
+    den = h(x1) - h(x0)
+    
+#Se halla xn, siguiendo la formula original que seguiamos, se implementan el numerador y denominador calculados anteriormente
+    x = x1 - num/den
+    
+#Se halla el nuevo error y se aumenta el contador de iteraciones
+      err2<-err
+      err = abs(x - x1)
+      Ex<-c(Ex, err2/abs(x))
+      Ey<-c(Ey, err/abs(x))
+
+    cont <-cont+1
+    
+#Los valores que se tomarán de x1 y x0 para la siguiente iteración
+    x0 = x1
+    x1 = x
+    cat(formatC( c(x ,h(x), err), digits=15, width = -15, format = "f", flag = " "), "\n")
+  }
+
+#Punto amarillo en la grafica, punto de interseccion
+  cat("\n\nLa intersección se encuentra en el punto x=", x, ", E=",err ," iteraciones = ", cont ,"\n")
+  
+  points(x,h(x), col="yellow")
+}
+#Para asegurar la convergencia los valores x0 y x1 deben ser cercanos al resultado
+puntoA(-1.8,-1.6,1e-8)
+#-------------------------------------------------------------------------------------------------------
+# c)  Aplicar el metodo iterativo siguiente con E = 10−8 para encontrar el punto de interseccion:
+puntoC <- function(x0, x1, tol)
+{
+
+  err = abs(x1-x0)
+  cont <-0
+  x = 0
+  
+  cat("---------------------------------------------------------------------------\n")
+  cat(formatC( c("x_k"," f(x_k)","Error est."), width = -20, format = "f", flag = " "), "\n")
+  cat("---------------------------------------------------------------------------\n")
+  
+  
+  iteraciones<-c()
+  Ex<-c()
+  Ey<-c()
+  
+  while(tol < err)
+  {
+#Se halla el numerador y el denominador de la expresion iterativa utilizando la función h(x) que es la que tiene la intersección de las dos funciones previas
+    num = x1 - x0
+    den = h(x1) - h(x0)
+    
+#Se halla xn, siguiendo la formula original que seguiamos, se implementan el numerador y denominador calculados anteriormente
+    x = x1 - h(x1)*(num/den)
+    
+#Se halla el nuevo error y se aumenta el contador de iteraciones
+      err2<-err
+      err = abs(x - x1)
+      Ex<-c(Ex, err2/abs(x))
+      Ey<-c(Ey, err/abs(x))
+
+    cont <-cont+1
+    
+#Los valores que se tomarán de x1 y x0 para la siguiente iteración
+    x0 = x1
+    x1 = x
+    cat(formatC( c(x ,h(x), err), digits=15, width = -15, format = "f", flag = " "), "\n")
+  }
+
+  
+  cat("\n\nLa intersección se encuentra en el punto x=", x, ", E=",err ," iteraciones = ", cont ,"\n")
+  
+  points(x,h(x), col="yellow")
+}
+#Para asegurar la convergencia los valores x0 y x1 deben ser cercanos al resultado
+puntoC(-1.9,-1.5,1e-8)
+#-------------------------------------------------------------------------------------------------------
