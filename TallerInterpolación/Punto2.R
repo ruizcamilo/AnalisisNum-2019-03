@@ -16,5 +16,4 @@ y= c(10,15,5)
 xs <- seq(0, 2, by = 0.1)
 pp <- cubicspline(x, y)
 ppfun <- function(xs) ppval(pp, xs)
-curve(ppfun(x),from=0,to=3,xlab = "x", ylab = "f(x)", 
-     main = "Grafica Segundo Punto")
+curve(ppfun(x),from=0,to=3,xlab = "x", ylab = "f(x)", main = "Grafica Segundo Punto")
